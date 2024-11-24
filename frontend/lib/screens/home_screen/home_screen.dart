@@ -32,18 +32,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
     super.initState();
+
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await ref.read(userProvider.notifier).initializeUser();
-      _timer = Timer.periodic(const Duration(seconds: 4), (Timer timer) {
-        if (_pageController.hasClients) {
-          final nextPage = (_pageController.page?.toInt() ?? 0) + 1;
-          _pageController.animateToPage(
-            nextPage % recommendedActivities.length,
-            duration: const Duration(milliseconds: 800),
-            curve: Curves.easeInOut,
-          );
-        }
-      });
+
+      if (_pageController.hasClients && _pageController.page != null) {
+        _timer = Timer.periodic(const Duration(seconds: 4), (Timer timer) {
+          if (_pageController.hasClients) {
+            final nextPage = (_pageController.page?.toInt() ?? 0) + 1;
+            _pageController.animateToPage(
+              nextPage % recommendedActivities.length,
+              duration: const Duration(milliseconds: 800),
+              curve: Curves.easeInOut,
+            );
+          }
+        });
+      }
     });
   }
 

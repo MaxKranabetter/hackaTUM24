@@ -55,7 +55,7 @@ class _ActivitySelectionScreenState
               const CircularProgressIndicator(),
               gapH16,
               Text(
-                "You have no pending activity requests",
+                "Loading your request...",
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,

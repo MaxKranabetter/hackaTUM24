@@ -34,7 +34,7 @@ class UserService {
       age: 0,
       gender: 'male',
     );
-
+    print(url);
     try {
       final response = await http.post(
         url,
