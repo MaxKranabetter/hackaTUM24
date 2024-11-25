@@ -1,0 +1,25 @@
+{
+    "user": {
+        "userId": "70d03713-b525-457a-b377-445ee51d44f2",
+        "name": "Sebastian",
+        "avatarUrl": "https://media.licdn.com/dms/image/v2/D4D03AQEyyMvCBUPHBg/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1721389474532?e=1737590400&v=beta&t=BrErZUi9TNflz10T2Byt60MGMMrbugNO32jbblXL6Mo",
+        "age": 22,
+        "gender": "male"
+    },
+    "activity": {
+        "activityId": "a2a00da2-78f6-4736-be46-0cd28c111577",
+        "description": "I would like to play football!",
+        "timerange": {
+            "startTime": 1732328106,
+            "endTime": 1732331706
+        },
+        "location": {
+            "lat": -50.0022292,
+            "lon": 20.01009201,
+            "radius": 10
+        },
+        "minUsers": 2,
+        "maxUsers": 4,
+        "joinedUsers": []
+    }
+}
