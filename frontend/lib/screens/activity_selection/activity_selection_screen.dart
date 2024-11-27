@@ -34,9 +34,8 @@ class _ActivitySelectionScreenState
   @override
   void initState() {
     super.initState(); // Always call super first.
-    Future(() {
-      _loadActivties = loadActivities();
-    });
+
+    _loadActivties = loadActivities();
   }
 
   late double screenHeight;
@@ -218,62 +217,73 @@ class _ActivitySelectionScreenState
   }
 
   Future<List<ActivityModel>> loadActivities() async {
-    // check if the user is logged in
-    if (ref.read(userProvider) == null) {
-      await ref.read(userProvider.notifier).initializeUser();
-    }
-
-    String uid = ref.read(userProvider)!.uid;
-
-    print("Loading activities using current user ${uid}");
-    print("Loading activities using current request ${widget.activityModel}");
-    String? id;
-    if (widget.activityModel != null) {
-      String name = await getLocationName(widget.activityModel!.location["lat"],
-              widget.activityModel!.location["lon"]) ??
-          "Unknown Location";
-
-      // upadte the location name
-      widget.activityModel!.location["name"] = name;
-
-      // upload the newlly created activity
-      id = await ref
-          .read(currentActivityProvider.notifier)
-          .addActivity(widget.activityModel!, uid);
-
-      // upload the newlly created activity id to shared preferences
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString("currentActivityId", id);
-    } else {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      id = prefs.getString("currentActivityId");
-
-      if (id == null) {
-        return [];
-      }
-      currentRequest = await ref
-          .read(currentActivityProvider.notifier)
-          .loadActivityFromID(id);
-      ref.read(currentActivityProvider.notifier).setActivity(currentRequest!);
-    }
-    print("Loading activities using current request ${id}");
-    List<dynamic> activities =
-        await ref.read(currentActivityProvider.notifier).loadActivities(
-              id,
-            );
-
-    print("Loaded activities ${activities}");
-// check if the userID is in the participants list
-    final userActivities = activities.where((element) {
-      return !element["joinedUsers"].contains(uid);
-    }).toList();
-
-    print("User activities: $userActivities");
-
+    // wait 1 second and then return 3 mocked activity models
+    await Future.delayed(const Duration(seconds: 1));
     setState(() {
-      currentRequest = ref.read(currentActivityProvider)!;
+      currentRequest = ActivityModel(
+          description: "Schafkopf",
+          location: {
+            "lat": 11.2332,
+            "lon": 5.234,
+            "radius": 3,
+            "name": "englischer Garten"
+          },
+          timeRange: {"startTime": TimeOfDay.now(), "endTime": TimeOfDay.now()},
+          minParticipants: 4,
+          maxParticipants: 4,
+          participants: [
+            {
+              "name": "Kyle",
+              "avatarUrl": "https://placecats.com/300/200",
+              "age": 31,
+              "gender": "male",
+              "createdAt": "1989-02-05T23:48:30",
+              "updatedAt": "1973-03-07T18:31:34"
+            },
+          ]);
     });
 
-    return userActivities.map((e) => ActivityModel.fromJson(e)).toList();
+    return [
+      ActivityModel(
+          description: "Go running",
+          location: {
+            "lat": 11.2332,
+            "lon": 5.234,
+            "radius": 3,
+            "name": "englischer Garten"
+          },
+          timeRange: {"startTime": TimeOfDay.now(), "endTime": TimeOfDay.now()},
+          minParticipants: 2,
+          maxParticipants: 5,
+          participants: [
+            {
+              "name": "Kyle",
+              "avatarUrl": "https://placecats.com/300/200",
+              "age": 31,
+              "gender": "male",
+              "createdAt": "1989-02-05T23:48:30",
+              "updatedAt": "1973-03-07T18:31:34"
+            },
+          ]),
+      ActivityModel(
+          description: "Play Football",
+          location: {
+            "lat": 11.2332,
+            "lon": 5.234,
+            "radius": 3,
+            "name": "englischer Garten"
+          },
+          timeRange: {"startTime": TimeOfDay.now(), "endTime": TimeOfDay.now()},
+          minParticipants: 5,
+          maxParticipants: 10,
+          participants: [
+            {
+              "name": "Kyle",
+              "avatarUrl": "https://placecats.com/300/200",
+              "age": 31,
+              "gender": "male"
+            }
+          ])
+    ];
   }
 }

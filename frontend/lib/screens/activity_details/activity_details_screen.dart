@@ -195,30 +195,31 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
   }
 
   Future<ActivityModel> loadActivity() async {
-    ActivityModel activity = await ref
-        .read(currentActivityProvider.notifier)
-        .loadActivityFromID(widget.activityID);
-
-    try {
-      // join the activity
-      print("Joining activity");
-      // check if the user is logged in
-      if (ref.read(userProvider) == null) {
-        await ref.read(userProvider.notifier).initializeUser();
-      }
-
-      String userID = ref.read(userProvider)!.uid;
-
-      print("userID: $userID");
-      print("activityID: ${activity.id}");
-
-      await ref
-          .read(currentActivityProvider.notifier)
-          .joinActivity(activity, userID);
-    } catch (e) {
-      print("error $e");
-    }
-
-    return activity;
+    // return mock data model
+    return ActivityModel(
+        description: "Play Football",
+        location: {
+          "lat": 11.2332,
+          "lon": 5.234,
+          "radius": 3,
+          "name": "englischer Garten"
+        },
+        timeRange: {"startTime": TimeOfDay.now(), "endTime": TimeOfDay.now()},
+        minParticipants: 5,
+        maxParticipants: 10,
+        participants: [
+          {
+            "name": "Kyle",
+            "avatarUrl": "https://placecats.com/300/200",
+            "age": 31,
+            "gender": "male"
+          },
+          {
+            "name": "Isabella",
+            "avatarUrl": "https://placecats.com/300/200",
+            "age": 28,
+            "gender": "woman"
+          }
+        ]);
   }
 }
